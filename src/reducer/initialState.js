@@ -4,7 +4,7 @@ export default {
     },
 
     selectedRewardReducer: {
-        course: undefined
+        reward: undefined
     },
 
     apiReducer: {

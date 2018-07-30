@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 const selectedRewardReducer = (state = initialState.selectedRewardReducer, action) => {
     switch(action.type) {
-
         case ActionType.GET_REWARD_RESPONSE: {
             return {
                 ...state,

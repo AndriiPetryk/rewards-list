@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 
@@ -34,11 +34,6 @@ class RewardList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.options = {
-            sortIndicator: true,
-            noDataText: 'No data'
-        };
-
         this.selectRowProp = {
             mode: 'radio',
             bgColor: '#c1f291',
@@ -46,24 +41,16 @@ class RewardList extends React.Component {
             clickToSelect: true, 
             hideSelectColumn: true            
         };
-        this.state={
-            selectedRewardId: undefined
-        }
     }
-    handleRewardFilter1 = (e) =>{
+    handleRewardFilter = (e) =>{
         let dataId = e.currentTarget.dataset.id;
         this.refs.table.handleFilterData({ status: dataId });
         this.props.d.history.push(`/rewards/${dataId}`);
     };
 
     handleEditReward(cell, row, rowIndex) {
-        this.setState({selectedRewardId: row.id});
-        const selectedRewardId = this.state.selectedRewardId;
-
-        if (selectedRewardId) {
-            this.setState({selectedRewardId: undefined});
             this.props.d.history.push(`/reward/${row.id}`);
-        }
+
     }
 
     cellButton(cell, row, enumObject, rowIndex) {
@@ -92,17 +79,18 @@ class RewardList extends React.Component {
         return (
             <div>
                 {
-                    filteredStatus.map(course=>{
+                    filteredStatus.map((course, index)=>{
                         return <button
+                            key={index}
                             type="button"
                             className="btn btn-warning ml-2"
                             data-id={course.status}
-                            onClick={this.handleRewardFilter1}>
+                            onClick={this.handleRewardFilter}>
                             {course.status}
                         </button>
                     })
                 }
-                <BootstrapTable ref='table' data={this.props.rewards}  selectRow={this.selectRowProp}  options={this.options} bordered={false} striped hover condensed>
+                <BootstrapTable ref='table' data={this.props.rewards} bordered={false} striped hover condensed>
                     <TableHeaderColumn dataField="id" isKey hidden>Id</TableHeaderColumn>
 
                     <TableHeaderColumn

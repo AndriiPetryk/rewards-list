@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 
 const FieldInput = ({input, type, name, label, placeholder, meta: {touched, error, warning}}) => {
@@ -19,17 +19,6 @@ const FieldInput = ({input, type, name, label, placeholder, meta: {touched, erro
                 </div>
             </div>
     );
-};
-
-
-
-FieldInput.propTypes = {
-    input: PropTypes.object.isRequired,
-    type: PropTypes.string.isRequired,   
-    name: PropTypes.string,
-    label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    meta: PropTypes.object.isRequired,
 };
 
 

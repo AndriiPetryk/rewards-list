@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
@@ -9,12 +9,18 @@ import CourseForm from './RewardForm';
 export class AddOrEditRewardContainer extends React.Component {
 
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
+        this.state = {
+            initialValues: null
+        };
     }
 
+    componentWillReceiveProps(nextProps){
+        this.setState({initialValues: nextProps.initialValues});
+    }
 
     componentDidMount() {
 
@@ -35,7 +41,7 @@ export class AddOrEditRewardContainer extends React.Component {
 
         this.props.action.saveRewardAction(reward)
             .then(() => {
-                toastr.success('Course saved');
+                toastr.success('Reward saved');
                 this.props.history.push('/rewards');
             }).catch(error => {
                 toastr.error(error);
@@ -58,7 +64,7 @@ export class AddOrEditRewardContainer extends React.Component {
                     heading={heading}
                     handleSave={this.handleSave}
                     handleCancel={this.handleCancel}
-                    initialValues={this.props.initialValues}
+                    initialValues={this.state.initialValues}
                 />
             </div>
         );
@@ -66,19 +72,11 @@ export class AddOrEditRewardContainer extends React.Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-    const rewardId = ownProps.match.params.id;
-    console.log("rewardId", rewardId);
-    // console.log("state.selectedRewardReducer.reward", state.selectedRewardReducer.reward);
-    if (rewardId && state.selectedRewardReducer.reward !=undefined && rewardId === state.selectedRewardReducer.reward.id) {
+function mapStateToProps(state){
         return {
-            initialValues: state.selectedRewardReducer.reward,
+            initialValues: state.selectedRewardReducer.reward
         };
-    }else{
-        return {
-            initialValues: state.selectedRewardReducer.reward,
-        };
-    }
+
 };
 
 

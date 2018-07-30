@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
@@ -8,14 +8,6 @@ import RewardList from './RewardList';
 
 
 export class RewardListContainer extends React.Component {
-
-    constructor() {
-        super();
-
-        this.state = {selectedRewardId: undefined};
-        // this.handleRowSelect = this.handleRowSelect.bind(this);
-    }
-
 
     componentDidMount() {
         this.props.action.getRewardsAction()

@@ -26,11 +26,6 @@ export function getRewardsAction() {
 }
 
 
-export const addNewReawrdResponse = () => ({
-    type: ActionType.ADD_NEW_REWARD_RESPONSE
-});
-
-
 
 export const updateExistingRewardResponse = () => ({
     type: ActionType.UPDATE_EXISTING_REWARD_RESPONSE
@@ -44,8 +39,6 @@ export function saveRewardAction(rewardBeingAddedOrEdited) {
             .then(() => {
                 if (rewardBeingAddedOrEdited.id) {
                     dispatch(updateExistingRewardResponse());
-                } else {
-                    dispatch(addNewReawrdResponse());
                 }
             }).then(() => {
                 dispatch(getRewardsAction());
@@ -68,7 +61,6 @@ export function getRewardAction(rewardId) {
         dispatch(ApiCallBeginAction());
         return RewardApi.getReward(rewardId)
             .then(reward => {
-                // console.log("rewardId getReward", rewardId);
                 dispatch(getRewardResponse(reward));
             }).catch(error => {
                 throw error;

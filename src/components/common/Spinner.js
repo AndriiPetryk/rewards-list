@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 
 
@@ -43,10 +43,6 @@ Spinner.defaultProps = {
   interval: 300, dots: 3
 };
 
-Spinner.propTypes = {
-  interval: PropTypes.number,
-  dots: PropTypes.number
-};
 
 
 

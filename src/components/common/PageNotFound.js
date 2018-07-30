@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 
 const PageNotFound = ({location}) => {
@@ -11,11 +11,6 @@ const PageNotFound = ({location}) => {
     );
 };
 
-
-
-PageNotFound.propTypes = {
-    location: PropTypes.object.isRequired
-};
 
 
 
