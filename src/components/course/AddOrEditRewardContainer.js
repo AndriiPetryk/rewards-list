@@ -17,14 +17,15 @@ export class AddOrEditRewardContainer extends React.Component {
 
 
     componentDidMount() {
-        this.props.action.getReawrdAction(this.props.match.params.id)
+
+        this.props.action.getRewardAction(this.props.match.params.id)
             .catch(error => {
                 toastr.error(error);
             });
     }
 
     handleSave(values) {
-        const course = {
+        const reward = {
             id: values.id,
             user: values.user,
             experience: values.experience,
@@ -32,7 +33,7 @@ export class AddOrEditRewardContainer extends React.Component {
             status: values.status,
         };
 
-        this.props.action.saveRewardAction(course)
+        this.props.action.saveRewardAction(reward)
             .then(() => {
                 toastr.success('Course saved');
                 this.props.history.push('/rewards');
@@ -67,7 +68,13 @@ export class AddOrEditRewardContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     const rewardId = ownProps.match.params.id;
-    if (rewardId && state.selectedRewardReducer.reward != undefined) {
+    console.log("rewardId", rewardId);
+    // console.log("state.selectedRewardReducer.reward", state.selectedRewardReducer.reward);
+    if (rewardId && state.selectedRewardReducer.reward !=undefined && rewardId === state.selectedRewardReducer.reward.id) {
+        return {
+            initialValues: state.selectedRewardReducer.reward,
+        };
+    }else{
         return {
             initialValues: state.selectedRewardReducer.reward,
         };

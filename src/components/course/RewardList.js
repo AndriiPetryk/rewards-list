@@ -154,11 +154,4 @@ class RewardList extends React.Component {
 
 
 
-RewardList.propTypes = {
-    courses: PropTypes.array.isRequired,
-    handleRowSelect: PropTypes.func.isRequired
-};
-
-
-
 export default RewardList;

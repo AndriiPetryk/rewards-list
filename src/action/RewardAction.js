@@ -63,11 +63,12 @@ export const getRewardResponse = rewardFound => ({
 
 
 
-export function getReawrdAction(rewardId) {
+export function getRewardAction(rewardId) {
     return (dispatch) => {
         dispatch(ApiCallBeginAction());
         return RewardApi.getReward(rewardId)
             .then(reward => {
+                // console.log("rewardId getReward", rewardId);
                 dispatch(getRewardResponse(reward));
             }).catch(error => {
                 throw error;

@@ -174,9 +174,7 @@ class RewardApi {
                 const existingRewardIndex = rewards.filter(reward => {
                     return reward.id === Number(rewardId)
                 })[0];
-                const rewardFound = Object.assign({}, existingRewardIndex);
-                resolve(rewardFound);
-
+                resolve(existingRewardIndex);
             }, delay);
         });
     }
