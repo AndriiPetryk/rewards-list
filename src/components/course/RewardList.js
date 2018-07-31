@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import moment from 'moment';
 
 const getCaret = direction => {
     if (direction === 'asc') {
@@ -53,6 +54,33 @@ class RewardList extends Component {
         )
     }
 
+    // sortDates (a, b, order) {
+    //
+    //     if(order === 'desc')
+    //         return moment(a.date, "DD/MM/YYYY") - moment(b.date, "DD/MM/YYYY");
+    //     return moment(b.date, "DD/MM/YYYY") - moment(a.date, "DD/MM/YYYY");
+    // }
+
+    // dateFormatter(cell: any) {
+    //     if (!cell) {
+    //         return "";
+    //     }
+    //     return `${moment(cell).format("DD-MM-YYYY")? moment(cell).format("DD-MM-YYYY"):moment(cell).format("DD-MM-YYYY") }`;
+    // }
+
+    sortDates (a, b, order) {
+        let indices = [6, 7, 8, 9, 0, 1, 3, 4];
+        if (order === 'asc') {
+            let r = 0;
+            indices.find(i => r = a.date.charCodeAt(i) - b.date.charCodeAt(i));
+            return r;
+        } else if (order === 'desc') {
+            let r = 0;
+            indices.find(i => r = b.date.toString().charCodeAt(i) - a.date.toString().charCodeAt(i));
+            return r;
+        }
+    }
+
     render() {
         const flags = new Set();
         const filteredStatus = this.props.rewards.filter(entry => {
@@ -98,6 +126,8 @@ class RewardList extends Component {
                         dataField="date"
                         dataSort={true}
                         caretRender={getCaret}
+                        sortFunc={ this.sortDates }
+                        // dataFormat={this.dateFormatter}
                         columnTitle
                     >
                         Date

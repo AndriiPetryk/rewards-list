@@ -9,7 +9,6 @@ import RewardList from './RewardList';
 
 
 export class RewardListContainer extends React.Component {
-
     constructor(props) {
         super(props);
         this.base = {
