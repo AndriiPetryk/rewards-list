@@ -15,7 +15,7 @@ export class AddOrEditRewardContainer extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.state = {
             initialValues: null
-        };
+        }
     }
 
     componentWillReceiveProps(nextProps){

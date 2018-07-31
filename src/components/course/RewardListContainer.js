@@ -2,12 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
+import {get, isEqual} from 'lodash';
 import * as rewardAction from '../../action/RewardAction';
 import RewardList from './RewardList';
 
 
 
 export class RewardListContainer extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.base = {
+            matchTab: get(this.props, 'match.params.tab', null)
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        const { match: { params } } = nextProps;
+        if (!isEqual(params.tab, this.base.matchTab)) {
+             this.base.matchTab = params.tab;
+         }
+    }
 
     componentDidMount() {
         this.props.action.getRewardsAction()
@@ -42,7 +57,7 @@ export class RewardListContainer extends React.Component {
 
                 <div className="row">
                     <div className="col">
-                        <RewardList rewards={rewards} d={this.props} handleRowSelect={this.handleRowSelect}/>
+                        <RewardList rewards={rewards} history={this.props.history} tab={this.base.matchTab} handleRowSelect={this.handleRowSelect}/>
                     </div>
                 </div>
             </div>
