@@ -1,3 +1,7 @@
 .btn-space {
     margin-left: 20px;
 }
+
+.filter.select-filter.form-control.placeholder-selected{
+    display: none;
+}

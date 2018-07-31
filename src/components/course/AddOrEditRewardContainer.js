@@ -7,8 +7,6 @@ import CourseForm from './RewardForm';
 
 
 export class AddOrEditRewardContainer extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.handleSave = this.handleSave.bind(this);

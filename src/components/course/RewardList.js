@@ -25,17 +25,26 @@ const titleFormatter = (cell, row) => {
 
 
 class RewardList extends Component {
+    constructor(props){
+        super(props);
+        this.statusType = {
+            'new': 'new',
+            'completed': 'completed',
+            'redeemed': 'redeemed',
+            'scheduled': 'scheduled'
+        };
+    }
 
     componentWillReceiveProps(nextProps){
         const { tab } = nextProps;
         if(tab !== undefined){
-            this.refs.table.handleFilterData({ status: tab });
+            this.refs.status.applyFilter(tab);
         }
     }
 
     handleRewardFilter = (e) =>{
         let dataId = e.currentTarget.dataset.id;
-        this.refs.table.handleFilterData({ status: dataId });
+        this.refs.status.applyFilter(dataId);
         this.props.history.push(`/reward/${dataId}`);
     };
 
@@ -54,31 +63,14 @@ class RewardList extends Component {
         )
     }
 
-    // sortDates (a, b, order) {
-    //
-    //     if(order === 'desc')
-    //         return moment(a.date, "DD/MM/YYYY") - moment(b.date, "DD/MM/YYYY");
-    //     return moment(b.date, "DD/MM/YYYY") - moment(a.date, "DD/MM/YYYY");
-    // }
-
-    // dateFormatter(cell: any) {
-    //     if (!cell) {
-    //         return "";
-    //     }
-    //     return `${moment(cell).format("DD-MM-YYYY")? moment(cell).format("DD-MM-YYYY"):moment(cell).format("DD-MM-YYYY") }`;
-    // }
-
     sortDates (a, b, order) {
-        let indices = [6, 7, 8, 9, 0, 1, 3, 4];
-        if (order === 'asc') {
-            let r = 0;
-            indices.find(i => r = a.date.charCodeAt(i) - b.date.charCodeAt(i));
-            return r;
-        } else if (order === 'desc') {
-            let r = 0;
-            indices.find(i => r = b.date.toString().charCodeAt(i) - a.date.toString().charCodeAt(i));
-            return r;
-        }
+        if(order === 'desc')
+            return moment(a.date, "MM/DD/YYYY") - moment(b.date, "MM/DD/YYYY");
+        return moment(b.date, "MM/DD/YYYY") - moment(a.date, "MM/DD/YYYY");
+    }
+
+    enumFormatter(cell, row, enumObject) {
+        return enumObject[cell];
     }
 
     render() {
@@ -99,12 +91,13 @@ class RewardList extends Component {
                             key={index}
                             className="btn btn-warning ml-2"
                             data-id={course.status}
-                            onClick={this.handleRewardFilter}>
+                            onClick={this.handleRewardFilter}
+                        >
                             {course.status}
                         </button>
                     })
                 }
-                <BootstrapTable ref='table' data={this.props.rewards} bordered={false} striped hover condensed>
+                <BootstrapTable ref='table' data={this.props.rewards} bordered={false}>
                     <TableHeaderColumn dataField="id" isKey hidden>Id</TableHeaderColumn>
                     <TableHeaderColumn
                         dataField="user"
@@ -116,8 +109,8 @@ class RewardList extends Component {
                     </TableHeaderColumn>
                     <TableHeaderColumn
                         dataField="experience"
-                        dataSort={true}
-                        filter={{type: 'TextFilter', delay: 0 }}
+                        ref='experience'
+                        filter={ { type: 'RegexFilter', placeholder: 'Please enter an experience' } }
                         columnTitle
                     >
                         Experience
@@ -127,22 +120,26 @@ class RewardList extends Component {
                         dataSort={true}
                         caretRender={getCaret}
                         sortFunc={ this.sortDates }
-                        // dataFormat={this.dateFormatter}
                         columnTitle
                     >
                         Date
                     </TableHeaderColumn>
+
                     <TableHeaderColumn
+                        ref='status'
                         dataField="status"
-                        dataSort={true}
-                        columnTitle
-                    >
+                        filterFormatted
+                        dataFormat={this.enumFormatter}
+                        formatExtraData={this.statusType}
+                        filter={{type: "SelectFilter", options: this.statusType}}>
                         Status
                     </TableHeaderColumn>
                     <TableHeaderColumn
                         dataField='button'
                         dataFormat={this.cellButton.bind(this)}
-                    />
+                    >
+                        Edit
+                </TableHeaderColumn>
 
                 </BootstrapTable>
             </div>
