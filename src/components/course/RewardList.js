@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-// import {Link} from 'react-router-dom';
-import {isEqual} from "lodash";
 
 const getCaret = direction => {
     if (direction === 'asc') {
@@ -29,7 +27,7 @@ class RewardList extends Component {
 
     componentWillReceiveProps(nextProps){
         const { tab } = nextProps;
-        if(tab != undefined){
+        if(tab !== undefined){
             this.refs.table.handleFilterData({ status: tab });
         }
     }
@@ -72,7 +70,6 @@ class RewardList extends Component {
                         return <button
                             key={index}
                             className="btn btn-warning ml-2"
-                            // to={{ pathname: `${course.status}` }}
                             data-id={course.status}
                             onClick={this.handleRewardFilter}>
                             {course.status}
