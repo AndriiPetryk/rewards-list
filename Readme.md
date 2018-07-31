@@ -1,3 +1,8 @@
+## Demo
+
+[https://reward-list.herokuapp.com/](https://reward-list.herokuapp.com/)
+
+
 ## Getting Started
 ```sh
 git clone https://github.com/AndriiPetryk/rewards-list

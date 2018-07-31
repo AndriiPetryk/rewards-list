@@ -27,20 +27,38 @@ const titleFormatter = (cell, row) => {
 class RewardList extends Component {
     constructor(props){
         super(props);
-        this.statusType = {
-            'new': 'new',
-            'completed': 'completed',
-            'redeemed': 'redeemed',
-            'scheduled': 'scheduled'
+        this.state = {
+          statusType:{}
         };
     }
 
     componentWillReceiveProps(nextProps){
         const { tab } = nextProps;
+        let filteredStatusArray = this.filterStatus(nextProps).map((status)=>{
+          let Asset = {};
+          Object.assign(Asset, {
+            [status.status]: status.status
+          });
+          return Asset;
+        });
+        let filteredStatus = Object.assign({}, ...filteredStatusArray);
+       this.setState({statusType: filteredStatus});
+
         if(tab !== undefined){
             this.refs.status.applyFilter(tab);
         }
     }
+
+  filterStatus(props){
+    const flags = new Set();
+    return props.rewards.filter(entry => {
+      if (flags.has(entry.status)) {
+        return false;
+      }
+      flags.add(entry.status);
+      return true;
+    });
+  }
 
     handleRewardFilter = (e) =>{
         let dataId = e.currentTarget.dataset.id;
@@ -74,19 +92,10 @@ class RewardList extends Component {
     }
 
     render() {
-        const flags = new Set();
-        const filteredStatus = this.props.rewards.filter(entry => {
-            if (flags.has(entry.status)) {
-                return false;
-            }
-            flags.add(entry.status);
-            return true;
-        });
-
         return (
             <div>
                 {
-                    filteredStatus.map((course, index)=>{
+                    this.filterStatus(this.props).map((course, index)=>{
                         return <button
                             key={index}
                             className="btn btn-warning ml-2"
@@ -130,8 +139,8 @@ class RewardList extends Component {
                         dataField="status"
                         filterFormatted
                         dataFormat={this.enumFormatter}
-                        formatExtraData={this.statusType}
-                        filter={{type: "SelectFilter", options: this.statusType}}>
+                        formatExtraData={this.state.statusType}
+                        filter={{type: "SelectFilter", options: this.state.statusType}}>
                         Status
                     </TableHeaderColumn>
                     <TableHeaderColumn
