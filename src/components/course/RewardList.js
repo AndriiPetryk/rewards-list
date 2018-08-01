@@ -19,9 +19,9 @@ const getCaret = direction => {
 };
 
 
-const titleFormatter = (cell, row) => {
-  return `<a href=${row.watchHref} target="_blank">${cell}</a>`;
-};
+// const titleFormatter = (cell, row) => {
+//   return `<a href=${row.watchHref} target="_blank">${cell}</a>`;
+// };
 
 
 class RewardList extends Component {
@@ -110,7 +110,6 @@ class RewardList extends Component {
                     <TableHeaderColumn dataField="id" isKey hidden>Id</TableHeaderColumn>
                     <TableHeaderColumn
                         dataField="user"
-                        dataFormat={titleFormatter}
                         dataSort={true}
                         columnTitle
                     >
